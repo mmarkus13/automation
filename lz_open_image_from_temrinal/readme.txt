@@ -32,4 +32,4 @@
 [Installation] (within WSL)
 	mkdir -p /home/$USER/scripts
 	echo 'export PATH=$PATH:/home/'"$USER/scripts" >> /home/$USER/.bashrc
-	mv open_imgage.py /home/$USER/scripts
+	mv iop open_imgage.py /home/$USER/scripts
