@@ -2,7 +2,7 @@
 
 if ! [ -z "$1" ]
  then
-   python /home/scadmin/scripts/epoch.py  --t "$1"
+   python /home/$USER/scripts/epoch.py  --t "$1"
  else
-   python /home/scadmin/scripts/epoch.py
+   python /home/$USER/scripts/epoch.py
 fi
