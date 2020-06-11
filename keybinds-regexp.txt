@@ -1,0 +1,416 @@
+[OS independent]
+
+Double-click to highlight whole word
+Ctrl+X	Cut
+Ctrl+C	Copy
+Ctrl+V	Paste
+Jump to EoL:	END
+Jump to SoL:	HOME
+Ctrl+Z			Undo
+Ctrl+Y			Redo
+
+File Explorer:	Win+E
+Toggle Desktop:	Win+D
+Lock screen:	win+L
+Snap windows:	Win+Arrows
+
+[WIN10-Default keys]
+
+Shift+Win+Arrow:	Move the window to another display (within the same Desktop)
+New Desktop:		CTRL+Win+D
+Switching D:		Ctrl+Win+[Left/Right Arrow]
+PrintScreen			Captures whole screen
+Win+PrintScreen:	Captures whole screen & saves it to C:\Users\<YOURUSER>\Pictures\Screenshots
+Alt+PrintScreen:	Captures current window
+Win+Shift+PScreen:	Snip to clipboard
+Win+Alt+Arrows:		Move the current window to next/previous desktop #needs https://github.com/Eun/MoveToDesktop or https://github.com/sdias/win-10-virtual-desktop-enhancer/blob/master/docs/settings.md#personalize-the-settings installed
+
+[Linux]
+Drag window to another workspace/desktop:	Shift+Ctrl+Alt+(Left/Right)	
+Terminal:		Ctrl+Alt+T or win+T	#note that windows key is called "super" on linux systems
+Alt+F2:			run console; 'chvt'; chvt 1; chvt 3;..ranging from 1 to 6 (Since only 6 TTYs are present in the Linux - virtual console = tty1 - tty6)
+
+[Notepad++]
+TAB				Indent
+Shift+Tab		UnIndent
+[Terminal]
+
+#Screen & Processes
+Ctrl+C			Interrupt
+Ctrl+D			Exit current shell
+Ctrl+L			Clear the screen (=clear command)
+Ctrl+S			Stop all output being printed - useful when you don't want to interrupt the command
+Ctrl+Q			Resume output to the screen after stopping it with Ctrl+S
+Ctrl+Z			Suspend the current foreground process running in bash; to bring it back type "fg <process_name>"
+#Moving the Cursor
+Ctrl+A or Home:	Go to the beginning of the line.
+Ctrl+E or End:	Go to the end of the line.
+Alt+B:			Go left (back) one word.
+Ctrl+B:			Go left (back) one character.
+Alt+F:			Go right (forward) one word.
+Ctrl+F:			Go right (forward) one character.
+Ctrl+XX:		Move between the beginning of the line and the current position of the cursor. This allows you to press Ctrl+XX to return to the start of the line, change something, and then press Ctrl+XX to go back to your original cursor position. To use this shortcut, hold the Ctrl key and tap the X key twice.
+#Deleting Text
+Ctrl+D or DeleteDelete the character under the cursor.
+Alt+D:			Delete all characters after the cursor on the current line.
+Ctrl+H or Backspace:	Delete the character before the cursor.
+#Fixing Typos
+Alt+T:			Swap the current word with the previous word.
+Ctrl+T:			Swap the last two characters before the cursor with each other. You can use this to quickly fix typos when you type two characters in the wrong order.
+Ctrl+_:			Undo your last key press. You can repeat this to undo multiple times.
+#Cutting and Pasting
+Ctrl+W:			Cut the word before the cursor, adding it to the clipboard.
+Ctrl+K:			Cut the part of the line after the cursor, adding it to the clipboard.
+Ctrl+U:			Cut the part of the line before the cursor, adding it to the clipboard.
+Ctrl+Y:			Paste the last thing you cut from the clipboard. The y here stands for “yank”.
+#Capitalizing Characters
+Alt+U:			Capitalize every character from the cursor to the end of the current word, converting the characters to upper case.
+Alt+L:			Uncapitalize every character from the cursor to the end of the current word, converting the characters to lower case.
+Alt+C:			Capitalize the character under the cursor. Your cursor will move to the end of the current word.
+#Tab Completion
+TAB:			Automatically complete the file, directory, or command you’re typing. #Note that if this does not work; then you need to run "updatedb" command
+#Working With Your Command History
+Ctrl+P or Up Arrow:		Go to the previous command in the command history. Press the shortcut multiple times to walk back through the history.
+Ctrl+N or Down Arrow:	Go to the next command in the command history. Press the shortcut multiple times to walk forward through the history.
+Alt+R: 					Revert any changes to a command you’ve pulled from your history if you’ve edited it.
+Ctrl+R:					Recall the last command matching the characters you provide. Press this shortcut and start typing to search your bash history for a command.
+Ctrl+O:					Run a command you found with Ctrl+R.
+Ctrl+G:					Leave history searching mode without running a command.
+Put bash into VI mode:		set -o vi
+Put bash into emacs mode:	set -o emacs #Note: EMACS is the default
+[AltGr+Ctrl+G]"quit"+[Enter]:	Exit Telnet
+
+[VI Editor]
+https://hea-www.harvard.edu/~fine/Tech/vi.html
+
+i #insert mode
+o 					#new line insert
+shift+A				#jumpst to the end of the line and switches to insert mode
+
+-extended command mode ":" 
+	:write foo 		#=save as
+	:wq				#Save&Exit: :x[!];:X[!];:wq[!];ZZ #Note that the "!" is optional and means forcing it; shift+zz = save and quit (if the file already has a name)
+	:q!				#Discard&Quit:		
+-command mode
+dd					delete line 	#buffer
+yy					copy line 		#buffer
+p					paste
+10p 				paste 10x
+v					visual to mark a block with arrows and then "d/y/p"
+u					undo
+ctrl+r				redo
+w 					#delete world
+x					#delete a single character
+:%s/old/new/g		replace (substitude)
+/string				finds "string"
+n					finds Next
+shift+n				finds Next (backward)
+shift+g				jumps to the end of the file
+gg					jump to top
+
+vimtutor 			#bash command that brings up vim guide
+
+[Custom key-binds]	
+
+KeePass-AutoT.:	Ctrl+Shift+X	#Keepass: copy username: Ctrl+B; copy password: Ctrl+C; insert username&pw: Ctrl+V
+PuTTy:			Ctrl+ALT+E
+SnipingTool:	Ctrl+ALT+S
+Capture2Text:	Windows+Q
+GoogleSearchPy:	Ctrl+ALT+R
+Notepad++:		Ctrl+ALT+T
+
+[Firefox]
+
+F5 				Refresh current page, frame, or tab.
+F11				Display the current website in fullscreen mode. Pressing F11 again will exit this mode.
+Esc				Stop page or download from loading.
+Spacebar		Moves down a page at a time.
+Alt+Home		Open your homepage.
+Alt+Down arrow 	Display all previous text entered in a text box and available options on drop-down menu.
+Alt+Left Arrow	Back a page.
+Alt+Right Arrow	Forward a page.
+Ctrl+(- or +)	Increase or decrease the font size, pressing '-' decreases and '+' increases. Ctrl+0 will reset back to default.
+Ctrl+A 			Selects all text.
+Ctrl+B 			Open the Bookmarks window, to view all bookmarks in Firefox. (slidebar)
+Ctrl+C 			Copies selected text.
+Ctrl+D 			Add a bookmark for the page currently opened.
+Ctrl+E 			Move the cursor to the search box.
+Ctrl+F 			Access the Find option, to search for any text on the currently open web page.
+Ctrl+H 			View browsing history.
+Ctrl+I 			Display available bookmarks.
+Ctrl+J 			Display the download window.
+Ctrl+K 			Move the cursor to the search box.
+Ctrl+L			Move cursor to address box.
+Ctrl+N			Open New browser window.
+Ctrl+O			Access the Open File window to open a file in Firefox.
+Ctrl+P			Print current page or frame.
+Ctrl+T 			Opens a new tab.
+Ctrl+U 			View a web page's source code.
+Ctrl+F4/Ctrl+W	Closes the currently selected tab.
+Ctrl+F5			Refresh the page, ignoring the Internet cache (force full refresh).
+Ctrl+Enter		Quickly complete an address. For example, type computerhope in the address bar and press Ctrl+Enter to get https://www.computerhope.com.
+Ctrl+Tab		Moves through each of the open tabs.
+Ctrl+Shift+Del	Open the Clear Data window to quickly clear private data.
+Ctrl+Shift+B	Bookmarks (advanced window)
+Ctrl+Shift+J	Open the Browser Console to troubleshoot an unresponsive script error.
+Ctrl+Shift+P	Open a new Private Browsing window.
+Ctrl+Shift+T	Undo the close of a window.
+Ctrl+Shift+W	Close the Firefox browser window.
+Shift+Spacebar	Moves up a page at a time.
+
+[Google - search engine]
+#Operator		#Function
++				term must appear in the search result
+-				term must not appear
+""				search for phrase
+.				wildcard for a single
+*				~  any number of characters
+site:			explores the concept of this url/page
+filetype:		term must appear in a file of this type; list of File types indexable by Google: https://support.google.com/webmasters/answer/35287?hl=en
+link:			term is searched in a hyperlink
+intitle:		term must appear in the title of the page
+inurl:			term must appear in the url
+
+[Slack]
+
+#Navigation I
+alt+RIGHT		Next channel in your history 
+alt+LEFT		Previous channel in your history
+shift+alt+DOWN	Next channel or direct message with unread messages
+shift+alt+UP	Previous channel or direct message with unread messages
+alt+UP			Previous channel or direct message
+alt+DOWN		Next channel or direct message
+
+#Navigation II
+ctrl+K			Open quick switcher
+ctrl+/			Open quick list of keyboard shortcuts
+ctrl+,			Open Preferences
+ctrl+.			Toggle right pane open or closed
+shift+ctrl+I	Open Channel info pane
+shift+ctrl+M	Open Recent Mentions
+shift+ctrl+S	Open Starred Items
+
+#Navigation III
+ctrl+1			Switch to team assigned to number 1
+ctrl+2			Switch to team assigned to number 2
+shift+ctrl+]	Switch to next team
+shift+ctrl+[	Switch to previous team
+
+#Messages I
+shift+ENTER		Create a new line
+shift+DOWN		Highlight text to end of current line
+shift+UP		Highlight text to beginning of current line
+TAB				Reprint the last slash command you entered
+UP				Edit your last message in current channel
+shift+ESC		Mark all messages in all channels and direct messages as read
+ESC				Mark all messages in current channel or direct message as read
+
+#Messages II
+ETAB			Autocomplete usernames beginning with character "e"
+shift+#DTAB		Autocomplete channel beginning with character "d"
+shift+:PTAB		Autocomplete emoji beginning with character "p"
+shift+ctrl+V	Paste your clipboard contents as new text snippet
+ctrl+U			Upload a file
+shift+ctrl+ENTERCreate a new snippet
+
+#Commands I
+/SHRUG+ENTER	Append ¯\_(ツ)_/¯ to your message 
+/REMIND+ENTER	Set a Slackbot reminder
+/MSG+ENTER		Send a direct message to another user
+/INVITE+ENTER	Invite another member to a channel or group
+/ME+ENTER		Displays action text
+/LEAVE+ENTER	Leave a channel or direct message 
+/COLLAPSE+ENTER	Collapse all inline images and video in current channel
+/AWAY+ENTER		Toggle your "away" status
+
+#Commands II
+/RENAME+ENTER	Rename a channel or group
+/WHO+ENTER		List users in current channel or group
+/SHORTCUTS+ENTEROpen the keyboard shortcuts dialog 
+/PREFS+ENTER	Open the preferences dialog
+/OPEN+ENTER		Open a channel or group
+/FEED[SPACE]HELP+ENTER	Manage RSS subscriptions
+/FEEDBACK+ENTER	Send feedback to Slack
+
+##PS.: ENTER=Return key
+
+
+[Visual Studio Code] (VSC)
+
+https://code.visualstudio.com/docs/getstarted/keybindings
+Ctrl+D			Add Selection To Next Find Match
+Ctrl+Shift+L	Select all occurrences of current selection
+Ctrl+F2			Select all occurrences of current word
+Alt+Down		Move Line Down
+Shift+Alt+Down	Copy Line Down
+
+
+[REGEX]
+#TLDR-basics
+^	start of a string
+$	end of a string
+.	any car except new line
+|	alteration (this|that)
+{...}	explicit quantuty of preceding characters; 	example: ab{2}c		meaning: abbc
+[...]	explicit set of characters to match; 		example: a[bB]c		meaning: abc, aBc	
+(...)	group of characters				example: (123){3}	meaning: 123123123
+*	null or more of the preceding character
++	one ore more of the preceding character
+?	null or one of the precending character
+
+#Characters
+Char.		Meaning								Example			Match
+[a-zA-Z]	literals only	
+[a-z]		lowercase literal only
+[A-Z]		uppercase literal only
+\d			digits only							file_\d\d		file_25
+\s			white spaces		  				a\sb\sc			a b\nc
+\w			alpha-numeric only (words)  		\w-\w\w\w		A-b_1
+\D			One character that is not a digit	\D\D\D			ABC
+\W			One character that is not a word	\W\W\W\W\W		*-+=)
+\S			One character that is not a w.space	\S\S\S\S		Yoyo
+#Quantifiers
+Quantifier	Legend								Example			Sample Match
++			One or more	Version 				\w-\w+			Version A-b1_1
+{3}			Exactly three times					\D{3}			ABC
+{2,4}		Two to four times					\d{2,4}			156
+{3,}		Three or more times					\w{3,}			regex_tutorial
+*			Zero or more times					A*B*C*			AAACC
+?			Once or none						plurals?		plural
+#More Characters
+Character	Legend								Example			Sample Match
+.			Any character except line break		a.c				abc
+.			Any character except line break		.*				whatever, man.
+\.			A period (special char.: needs to be escaped by a \)	a\.c	a.c
+\			Escapes a special character			\.\*\+\?    \$\^\/\\	.*+?    $^/\
+\			Escapes a special character			\[\{\(\)\}\]	[{()}]
+#Logic
+Logic	Legend	Example	Sample Match
+|	Alternation / OR operand	22|33	33
+( … )	Capturing group	A(nt|pple)	Apple (captures "pple")
+\1	Contents of Group 1	r(\w)g\1x	regex
+\2	Contents of Group 2	(\d\d)\+(\d\d)=\2\+\1	12+65=65+12
+(?: … )	Non-capturing group	A(?:nt|pple)	Apple
+#More White-Space
+Character	Legend	Example	Sample Match
+\t	Tab	T\t\w{2}	T     ab
+\r	Carriage return character	see below	
+\n	Line feed character	see below	
+\r\n	Line separator on Windows	AB\r\nCD	AB
+CD
+\N	Perl, PCRE (C, PHP, R…): one character that is not a line break	\N+	ABC
+\h	Perl, PCRE (C, PHP, R…), Java: one horizontal whitespace character: tab or Unicode space separator		
+\H	One character that is not a horizontal whitespace		
+\v	.NET, JavaScript, Python, Ruby: vertical tab		
+\v	Perl, PCRE (C, PHP, R…), Java: one vertical whitespace character: line feed, carriage return, vertical tab, form feed, paragraph or line separator		
+\V	Perl, PCRE (C, PHP, R…), Java: any character that is not a vertical whitespace		
+\R	Perl, PCRE (C, PHP, R…), Java: one line break (carriage return + line feed pair, and all the characters matched by \v)	
+#More Quantifiers
+Quantifier	Legend	Example	Sample Match
++	The + (one or more) is "greedy"	\d+	12345
+?	Makes quantifiers "lazy"	\d+?	1 in 12345
+*	The * (zero or more) is "greedy"	A*	AAA
+?	Makes quantifiers "lazy"	A*?	empty in AAA
+{2,4}	Two to four times, "greedy"	\w{2,4}	abcd
+?	Makes quantifiers "lazy"	\w{2,4}?	ab in abcd
+#Character Classes
+Character	Legend	Example	Sample Match
+[ … ]	One of the characters in the brackets	[AEIOU]	One uppercase vowel
+[ … ]	One of the characters in the brackets	T[ao]p	Tap or Top
+-	Range indicator	[a-z]	One lowercase letter
+[x-y]	One of the characters in the range from x to y	[A-Z]+	GREAT
+[ … ]	One of the characters in the brackets	[AB1-5w-z]	One of either: A,B,1,2,3,4,5,w,x,y,z
+[x-y]	One of the characters in the range from x to y	[ -~]+	Characters in the printable section of the ASCII table.
+[^x]	One character that is not x	[^a-z]{3}	A1!
+[^x-y]	One of the characters not in the range from x to y	[^ -~]+	Characters that are not in the printable section of the ASCII table.
+[\d\D]	One character that is a digit or a non-digit	[\d\D]+	Any characters, inc-
+luding new lines, which the regular dot doesn't match
+[\x41]	Matches the character at hexadecimal position 41 in the ASCII table, i.e. A	[\x41-\x45]{3}	ABE
+#Anchors and Boundaries
+Anchor	Legend	Example	Sample Match
+^	Start of string or start of line depending on multiline mode. (But when [^inside brackets], it means "not")	^abc .*	abc (line start)
+$	End of string or end of line depending on multiline mode. Many engine-dependent subtleties.	.*? the end$	this is the end
+\A	Beginning of string
+(all major engines except JS)	\Aabc[\d\D]*	abc (string...
+...start)
+\z	Very end of the string
+Not available in Python and JS	the end\z	this is...\n...the end
+\Z	End of string or (except Python) before final line break
+Not available in JS	the end\Z	this is...\n...the end\n
+\G	Beginning of String or End of Previous Match
+.NET, Java, PCRE (C, PHP, R…), Perl, Ruby		
+\b	Word boundary
+Most engines: position where one side only is an ASCII letter, digit or underscore	Bob.*\bcat\b	Bob ate the cat
+\b	Word boundary
+.NET, Java, Python 3, Ruby: position where one side only is a Unicode letter, digit or underscore	Bob.*\b\кошка\b	Bob ate the кошка
+\B	Not a word boundary	c.*\Bcat\B.*	copycats
+#POSIX Classes
+Character	Legend	Example	Sample Match
+[:alpha:]	PCRE (C, PHP, R…): ASCII letters A-Z and a-z	[8[:alpha:]]+	WellDone88
+[:alpha:]	Ruby 2: Unicode letter or ideogram	[[:alpha:]\d]+	кошка99
+[:alnum:]	PCRE (C, PHP, R…): ASCII digits and letters A-Z and a-z	[[:alnum:]]{10}	ABCDE12345
+[:alnum:]	Ruby 2: Unicode digit, letter or ideogram	[[:alnum:]]{10}	кошка90210
+[:punct:]	PCRE (C, PHP, R…): ASCII punctuation mark	[[:punct:]]+	?!.,:;
+[:punct:]	Ruby: Unicode punctuation mark	[[:punct:]]+	‽,:〽⁆
+#Inline Modifiers
+None of these are supported in JavaScript. In Ruby, beware of (?s) and (?m).
+Modifier	Legend	Example	Sample Match
+(?i)	Case-insensitive mode
+(except JavaScript)	(?i)Monday	monDAY
+(?s)	DOTALL mode (except JS and Ruby). The dot (.) matches new line characters (\r\n). Also known as "single-line mode" because the dot treats the entire input as a single line	(?s)From A.*to Z	From A
+to Z
+(?m)	Multiline mode
+(except Ruby and JS) ^ and $ match at the beginning and end of every line	(?m)1\r\n^2$\r\n^3$	1
+2
+3
+(?m)	In Ruby: the same as (?s) in other engines, i.e. DOTALL mode, i.e. dot matches line breaks	(?m)From A.*to Z	From A
+to Z
+(?x)	Free-Spacing Mode mode
+(except JavaScript). Also known as comment mode or whitespace mode	(?x) # this is a
+# comment
+abc # write on multiple
+# lines
+[ ]d # spaces must be
+# in brackets	abc d
+(?n)	.NET, PCRE 10.30+: named capture only	Turns all (parentheses) into non-capture groups. To capture, use named groups.	
+(?d)	Java: Unix linebreaks only	The dot and the ^ and $ anchors are only affected by \n	
+(?^)	PCRE 10.32+: unset modifiers	Unsets ismnx modifiers	
+#Lookarounds
+Lookaround	Legend	Example	Sample Match
+(?=…)	Positive lookahead	(?=\d{10})\d{5}	01234 in 0123456789
+(?<=…)	Positive lookbehind	(?<=\d)cat	cat in 1cat
+(?!…)	Negative lookahead	(?!theatre)the\w+	theme
+(?<!…)	Negative lookbehind	\w{3}(?<!mon)ster	Munster
+#Character Class Operations
+Class Legend	Example	Sample Match Operation
+[…-[…]]	.NET: character class subtraction. One character that is in those on the left, but not in the subtracted class.	[a-z-[aeiou]]	Any lowercase consonant
+[…-[…]]	.NET: character class subtraction.	[\p{IsArabic}-[\D]]	An Arabic character that is not a non-digit, i.e., an Arabic digit
+[…&&[…]]	Java, Ruby 2+: character class intersection. One character that is both in those on the left and in the && class.	[\S&&[\D]]	An non-whitespace character that is a non-digit.
+[…&&[…]]	Java, Ruby 2+: character class intersection.	[\S&&[\D]&&[^a-zA-Z]]	An non-whitespace character that a non-digit and not a letter.
+[…&&[^…]]	Java, Ruby 2+: character class subtraction is obtained by intersecting a class with a negated class	[a-z&&[^aeiou]]	An English lowercase letter that is not a vowel.
+[…&&[^…]]	Java, Ruby 2+: character class subtraction	[\p{InArabic}&&[^\p{L}\p{N}]]	An Arabic character that is not a letter or a number
+#Other Syntax
+Syntax	Legend	Example	Sample Match
+\K	Keep Out
+Perl, PCRE (C, PHP, R…), Python's alternate regex engine, Ruby 2+: drop everything that was matched so far from the overall match to be returned	prefix\K\d+	12
+\Q…\E	Perl, PCRE (C, PHP, R…), Java: treat anything between the delimiters as a literal string. Useful to escape metacharacters.	\Q(C++ ?)\E	(C++ ?)
+source: https://www.rexegg.com/regex-quickstart.html
+
+#Top 10 Most wanted regex
+https://medium.com/factory-mind/regex-cookbook-most-wanted-regex-aa721558c3c1
+Trim spaces:	^[\s]*(.*?)[\s]*$
+HTML Tag:		<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)
+Hexadecimal value:	\B#(?:[a-fA-F0–9]{6}|[a-fA-F0–9]{3})\b
+Valid email:		\b[\w.!#$%&’*+\/=?^`{|}~-]+@[\w-]+(?:\.[\w-]+)*\b
+Username(simple):	/^[a-z0-9_-]{3,16}$/
+Strong password:	(?=^.{6,}$)((?=.*\w)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[|!"$%&\/\(\)\?\^\'\\\+\-\*]))^.*
+2 of a kind:		^(?=([0-9]*[a-z]){2,})([a-zA-Z0-9]{8,32})$								#At least 2 letters (uppercase or lowercase) at any index, minimum length of 8, maximum length of 32
+					^(((https?|ftp):\/\/)?([\w\-\.])+(\.)([\w]){2,4}([\w\/+=%&_\.~?\-]*))*$	#If you want to use capturing groups to get scheme, path, etc. (or add user-info, host, port…) feel free to ask it in comments!
+IPv4 address	\b(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\b
+SSN — Social Security Number:	^((?<area>[\d]{3})[-][\d]{2}[-][\d]{4})$
+
+#Test Your regex:
+https://www.regextester.com/
+
+[Fast-type 10 fingers]
+https://www.typing.academy/typing-tutor/lessons

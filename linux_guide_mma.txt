@@ -1,0 +1,601 @@
+Linux PU(PowerUser) Guide
+
+[Linux types]
+
+Redhat
+	CentOS (free)
+	Fedora 
+
+Debian
+	Ubuntu Canonical (support)
+	Ubuntu Server LTS (long term support)
+	-Mint
+
+[Basic Shell commands]
+ls		#list files
+	\ls	#to show without colors
+			blue color 	= dir(ectory)
+			white 		= normal file
+			green		= program/system file (ASCII text)
+			light blue 	= simlink
+			yellow		= block file; example: ls -l /dev/vda
+	-a	#show all - including hidden
+	-l	#long list
+	-tr	#time reversed order
+mkdir	#create directory
+rmdir	#or "rm -rf 'thisdirectory' to remove 'thisdirectory' which is not empty"
+cp		#copy
+mv		#move
+rm		#remove
+ln 		#hardlink
+	ln myprogram.1 myproram.3
+ln -s 	#symbolic link; this doesn't create an additional file; just a path to the original file
+	ln -s myprogram.1 myprogram.4
+touch	#creates a file
+ touch -mt YYYYMMDDhhmm 									#changes "modified" date for the file; real example: touch -mt 200801120000 /Volumes/Mac\ HD/Pictures/somefile.jpg
+dd if=/dev/zero of=100Mfile bs=1 count=100					#creates 100mb dummy file
+dd if=/dev/zero of=1g.img bs=1 count=0 seek=1G 				#creates 1G file
+date	#date
+	DATE=`date --date="$STIME" '+%m/%d/%Y %H:%M:%S'`		#changing time format to 11/05/2019 00:00:00 format
+	file_${VAR}_`date +\%Y\%m\%d\%H`.json					#append date to filename; $VAR is optional - can be used if you have to loop trough different inputs (topics/groups..whatever)
+	EPOCHNOW=`date -d "${DATE}" +"%s"`						#convert date to epoch format
+	28daysAgo="$(echo $EPOCHNOW-2419200|bc)"				#gets epoch timestamp for exactly four weeks ago: 28day*24hours*60min*60sec=2419200SEC
+find	#find
+	find /PATH -size +100M -exec ls -l {} \; 2>/dev/null 	#finds files under /PATH (this can be C:// or /home..) that are greater than 100mb; and then prints the name of the file (if searching with a non-privlidged user within folders for which it doesn't have rights it would throw errors - that is why we discard them with 2>/dev/null
+	find /home/myuser -user root							#this will find files owned by root within my /home/myuser folder
+	find . -name '*.conf' -exec grep '7457' {} \;  -print 	#looks trough files within current folder (echo $PWD) and searches for "7457" within files - if found then it will print the filename that contains it
+cat		#explore file contents
+tac		#reverse cat
+file	#to find out type of the file - you shouldn't cat binary files; but you can cat compressed files with 'zcat' command
+cut -d: -f1 | sort -n										#-d is the delimiter which is current set to ":"; -f1 we specify field (in case of ASD:asd:DSA f1 = ASD; if we want both ASD and DSA we specify with -f1,3)
+#cut -d except last "|"  (for grep -iE)
+echo "ASD|asd|...|asd^nth" |  sort -u |  tr '\n' '|' | rev | cut --complement -d '|' -f1 | rev
+#cut parts of an expression:
+	var="Memory Used: 19.54M"
+	var=${var#*: }            # Remove everything up to a colon and space 	(= 19.54M)
+	var=${var%M}              # Remove the M at the end						(= Memory Used: 19.54)			
+head	#show first 10 lines of the file
+	head -n 5 /etc/passwd | tail -n 1
+tail	#show last 10 lines of the file
+	tail -f /var/log/messages								#-f = follow; it displays the lines and then keeps moniting the file (showing additional lines as the log grows)
+less														#I prefer to use less because sometimes "less is more"; actually 'less' does more than 'more'
+more
+tr [a-z] [A-Z]												#translates lower case to UPPER CASE
+grep "some string"
+	-v '^#'													#inverting matching; anything line starting with "some string" will be discarded
+	-B 5 													#shows 5 lines before "some string"
+	-i														#ignores case sensitivity
+	-e 														#expression = to 'egrep' command; when using this you can use regular expressions; to grep THIS or THAT: egrep '(THIS|THAT)'; FILTER=$(echo "s1|s2|s3"); cat servers.csv| grep -iE "(${FILTER})"; grep for three letters long string: egrep '^[[:alpha:]]{3}$' ; grep 100th line: grep '.\{100\}'
+awk
+	-F : '/anna/ { print $4 }' /etc/passwd
+	-F "," '{print $1}'										#Use "," (coma) as a field separator and print the first field only
+	'{$1=$2=""; print $0}' something.txt					#Print all the other columns but not the first and the second from something.txt
+	'{print $1,$2}'											#Print multiple columns (1st and 2nd)
+	'{s+=$1} END {print s}'																						#sums up a list of numbers from a 1 column wide array (example: echo -e "1\n2\n3\n4" | awk '{s+=$1} END {print s}' #=10
+	awk '/HOSTNAME1:NT/' RS="{" ORS="}" hostslist.json															#grep with awk between paragraph: 'patterns { }'
+	awk 'BEGIN{RS=ORS="{";FS=OFS="}"}/""/ {suppress=1} /^\s*$/ {suppress=0} !suppress' deprio_resources.json	#awk suppress paragraph containing "" - paragraph starting with { ending with }
+https://www.shellhacks.com/awk-print-column-change-field-separator-linux-bash/
+
+sed -n 5p /etc/passwd	#print 5th line from that file
+sed -i			#works directly on file
+sed -i s/anna/linda/g	#replace anna to linda
+sed -i -e '4d' users	#delete 4th line from users file
+sed -i -e '2d;20;25d' users	#deleting multiple lines from users file											#Note: It's important that you use -i -e to search/replace. If you do -ie, you create a backup of every file with the letter 'e' appended.
+#replace spacial characters with a variable via sed: $replace_str="* * * *"; sed "s~$original_str~$replace_str~" file
+#add header to csv file: sed -i 1i"id1,id2,id3,id4" file.csv
+
+EOF															#allows you to set End 
+ #example:
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+yum install -y kubectl
+
+
+#compress files into smaller parts
+ tar -cvzf newcompressedfile.tar.gz <filename>	#"z" compresses the archive with gzip
+ cjvf	#create and complress with bzip2
+ split -b 700M newcompressedfile.tgz
+ tvf	#shows contents of compressed file
+ xvf	#extracts compressed file
+ tar xvf myarch.tar -C / #"-C" changes directory
+ bzip2  #is more efficient than other methods - but not so common
+ gzip -9#increases the level of compression
+
+
+who is logged in: last; who; w;
+    pts = "pseudo terminal slave": login device when connecting through the network or a console (e.g. ssh).
+    tty = "teletype": serial or console connections (text mode)
+    :0 = "local:display #0": X11 server, used for graphical login (e.g. gdm)
+
+history	#shows commands issued by the current user
+whoami	#or "echo $USER" shows the user that you are currently logged in to the shell
+
+for
+ usage: for i in one two three; do echo $i; done
+while
+ usage: while read line; do echo $line; done
+ 
+ #port forwarding
+ssh -L <desired port>:<destination IP>:<source port> <user>@<host name/IP of host via which you want to forward>
+
+[Comparison Operators]
+Condition				Symbol		Example
+Less than				 < 			(a < b)
+Greater than			 > 			(a > b)
+Less than or equal to	 <=			(a <= b)
+Greater than or equal to >=			(a >= b)
+Equal to				 ==			(a == b)
+Not equal to			 !=			(a != b)
+
+Logic		Symbol		Example					Example2
+OR			  ||		((a < b) || (a < c));	<invalidcommand> 			|| 		echo "this runs only when the first command fails"
+AND			  &&		((a < b) && !(a < c));  echo "when this works" 		&& 		echo "then this will be executed as well; otherwise if the first part doesn't run - then this will be ignored"
+
+[Redirecting]
+STDIN  <
+STDOUT >
+STDERR 2>
+	>> #append; > #overwrite
+
+> /dev/null 2>&1	#sends 'standard input' and 'standard error' messages to be discarded
+
+[Positional Parameters]
+http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Positional-Parameters
+#TLDR:
+ #ANSI-C Quoting:
+escape character: 	\
+backspace:			\b
+newline				\n
+backslash			\\
+question mark		\?
+single quote		\'
+double quote		\"
+#comment			#anything after "#" is not interpreted by shell
+ #Special Parameters
+$?					#Expands to the exit status of the most recently executed foreground pipeline.
+$-					#hyphen "-" Expands to the current option flags as specified upon invocation, by the set builtin command, or those set by the shell itself (such as the -i option).
+$$					#Expands to the process ID of the shell. In a () subshell, it expands to the process ID of the invoking shell, not the subshell.
+$!					#Expands to the process ID of the job most recently placed into the background, whether executed as an asynchronous command or using the bg builtin
+$0					#Expands to the name of the shell or shell script. ( This is set at shell initialization. If Bash is invoked with a file of commands (see Shell Scripts), $0 is set to the name of that file. If Bash is started with the -c option (see Invoking Bash), then $0 is set to the first argument after the string to be executed, if one is present. Otherwise, it is set to the filename used to invoke Bash, as given by argument zero.)
+$1;$2;$3...			#Are positional arguments of a script. Example: "./script.sh Hello World" == $0 = ./script.sh ; $1 = Hello; $2 = World
+$_					#At shell startup, set to the absolute pathname used to invoke the shell or shell script being executed as passed in the environment or argument list. Subsequently, expands to the last argument to the previous simple command executed in the foreground, after expansion. Also set to the full pathname used to invoke each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file.
+
+[Shebang] #The Shebang interpreter directive takes the following form: "#!interpreter [arguments]"
+-Bash:
+#!/bin/bash
+-Python:
+#!/usr/bin/python
+
+
+[users & groups]
+
+useradd <username>
+groupadd <groupname>
+usermod -aG beatles john #appending new group "beatles" to "john" user
+id john
+passwd john		#toggle password change for john user
+userdel john 	#homedir of john and files will remain on the system
+groupdel beatles
+sudo -u otheruser whoami	#runs 'whoami' command as 'otheruser'
+su - otheruser 	#switching to other user
+
+[bashrc] #allows you to store settings for a user within linux
+ 
+alias
+	alias ll='ls -lah'										#binds "ll" to do "ls -lah"
+
+export HISTTIMEFORMAT="%d/%m/%y %T "						#adds timestamps to the 'history' command
+setxkbmap hu												#sets keyboard layout to hungarian
+
+#Bash colors:
+https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+Cutsom PS1:
+##################################################################################################################
+# PS 1
+export PS1='\e[91m[\e[90m\u@lenovo \e[33m\w\e[31m]\e[92m\n\$'
+#export PS1='\e[91m[\e[90m\u@lenovo \e[33m$PWD\e[31m]\e[92m\n\$'
+
+# print smiley when command executes, and red thing when not
+#PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\`[\u@\h:\w]\\$ "
+
+# TURN PS1 TO RED WHEN BAD COMMAND; GREEN WHEN OK
+# PROMPT_COMMAND='PS1="\[\033[0;33m\][\!]\`if [[ \$? = "0" ]]; then echo "\\[\\033[32m\\]"; else echo "\\[\\033[31m\\]"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 18 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\033[0m\] "; echo -ne "\033]0;`hostname -s`:`pwd`\007"'
+
+##################################################################################################################
+
+[File Permissions]
+
+r
+w
+x
+
+user / group / others
+
+chmod o+w /path #add write permission to others
+chmod u-rwx /path #remove all permissions
+chmod 755 
+chown user:group /path
+
+#To make your scripts be runnable from any location update your PATH so that it contains the folder with your custom scripts that should be executed as a command
+export PATH=$PATH:/home/$USER/myscripts
+
+[Ownership]
+
+chown #changes owner example: chown myuser linuxusers myfile.txt
+chgrp #changing group from root (for example) to "linuxusers": chgrp root linuxusers nonelevatedfile.txt
+
+[Special Permissions]
+
+		FILE		DIR
+SUID	4	run as owner	-
+SGID	2	run as gowner	inherit group owner
+sticky	1	-		only delete if owner or owner of parent directory
+
+SUID (S)
+chmod u+s file	#doesn't work on scripts
+
+SGID  (d)
+chmod g+w file	#allow to write files to tis directory
+chmod g+s file	#everybody who is in the group "file" has write permission to the file
+
+Sticky (t)
+chmod +t folder #only owner can delete files within the "folder"
+
+[ACL - Access Control List]
+
+-multiple owners
+-default ACL #to apply specific permissions - that umask cannot do (you can only set the restrictions higher the umask than default)
+
+setfacl -R -m g:group:rx account	#account is group as well; if we create a directory owned by account the following special settings will apply to newly created files/directories
+setfacl -m d:g:group:rx account
+get facl account
+
+setfacl -m u:<user>:r fstab		#modifies already existing file
+
+mkdir directory
+setfacl -m d:o:: -directory		#no permission for "others"
+
+
+[Managing Software]
+
+.rpm #RedhatPackagingManager
+
+name-version-osversion-architecture.rpm
+
+source: repos
+
+subscription-manager register
+subscription-manager repos --disable='*' --enable='<>'
+
+satelite server -> Red Hat CDN automatically download updates
+
+yum repolist all
+subscription-manager status
+ls -l /etc/yum.repos.d/
+
+yum info nmap
+nmap
+yum install -y nmap
+
+yum info nmap
+	Repo	: @System
+
+yum update  #updates all sw packages
+yum remove nmap
+
+rpm -qa #check installed stuff
+
+
+[Controlling System Startup Processes]
+
+system.d
+
+systemctl unit
+
+systemctl list-unit-files
+systemctl list-units --type service
+
+systemctl status sshd
+systemctl restart sshd
+systemctl reload sshd	#so it doesn't get new PID for the main process ID
+
+systemctl start sshd
+systemctl enable sshd #will be started automatically @every reboot
+
+
+[Processes]
+
+-deamon: service (automatically started when system is rebooted) #systemctl
+-jobs: ctrl+z; fg;
+	ps fax | less
+	pstree
+	
+[Monitoring Processes]
+
+top
+ load avg 1# shows last minute
+ load avg 2# shows last 5min
+ load avg 3# shows last 15min
+ 
+ zombie 0
+ 
+ #WA waiting for IO - system is waiting for hard disk to cope with the amount of data
+ 
+free -m #shows free memory
+echo 3 > proc/sys/vm/drop_caches #drop everything in cache that is not needed
+
+#normal processes have priority value of 20
+top -> R to modify resource allocation
+-20 agressive priority; +19 less priority
+#only root can increase priority
+top -> K kills 
+	15 nice way
+	9 force
+nice process
+kill process
+
+#scheduling processes
+at now + 90 days
+	at> shutdown -h now
+at 23:59
+	at> yum update -y 
+	
+#schedule automatically:
+	systemctl status cron
+
+	crontab -e
+	#mm HH DoM MM DoW
+	
+[Network Analysis Tools]
+
+hostname
+ping
+nmcli		#network-manager
+traceroute 	#for security reasons the routers do not return their identity
+dig 		#test DNS configuration; dig google.com
+netstat/ss	#test local availability of listening ports
+nmap		#dangerous utility -which ports are listening on a remote host
+ip		#analying shall start with checking my own configuration first
+
+
+[Managing Software on Linux]
+-Puppet
+-Chef
+
+[globbing & wildcards] #for more regarding regex check my keybinds-regex.txt
+#'man 7 glob'
+ls host*		matches anything
+ls ?ost			matches single char.
+ls [hm]			either h or m
+ls [!hm]		none of those
+ls [0-9][a-z]	range
+
+[Linux tricks]
+
+#fix "unknown device - for display"
+	xrandr --newmode "1920x1080_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync
+	xrandr | grep connected | grep 1024 | awk '{ print$1 }'
+	xrandr --addmode <output of previous command> "1920x1080_60.00"
+	xrandr --addmode DP-2 "1920x1080_60.00"
+	
+#Add "open in terminal" option to folders in linux
+	gsettings set org.gnome.desktop.default-applications.terminal exec gnome-terminal
+	nemo -q
+	nemo
+	
+#Add compress & extract as 'right click' option on linux
+
+~/.local/share/nemo/actions 
+
+cat compress.nemo_action
+	[Nemo Action]
+	Active=true
+	Name=Compress...
+	Comment=compress %N
+	Exec=file-roller -d %F
+	Icon-Name=gnome-mime-application-x-compress
+	Selection=Any
+	Extensions=any;
+ 
+cat extracthere.nemo_action
+	[Nemo Action]
+	Active=true
+	Name=Extract here
+	Comment=Extract here
+	Exec=file-roller -h %F
+	Icon-Name=gnome-mime-application-x-compress
+	#Stock-Id=gtk-cdrom
+	Selection=Any
+	Extensions=zip;7z;ar;cbz;cpio;exe;iso;jar;tar;tar;7z;tar.Z;tar.bz2;tar.gz;tar.lz;tar.lzma;tar.xz;
+	
+#Add open in terminal right click finction
+ gsettings set org.gnome.desktop.default-applications.terminal exec gnome-terminal
+ nemo -q
+
+#Restart Cinnamon by:
+    pressing Alt + F2 , type r , and press Enter
+or
+    Ctrl + Alt + Backspace (restart Xorg),
+or
+    in TTY use command: sudo service mdm restart.
+	
+#Mail notifications (for linux server with SMTP enabled:
+ #get mail when rooted
+echo 'ALERT - Root Shell Access (ServerName) on:' `date` `who` | mail -s "Alert: Root Access from `who | cut -d'(' -f2 | cut -d')' -f1`" your@yourdomain.com
+ #get mail when process finished
+command; echo "Process <isnert PID/name -optional> done" | mail -s "Process done" mail@domain.tld ##SERVICED
+ #send mail when "process" appears in log:
+tail -f /opt/IBM/scanalytics/analytics/probe/omnibus/log/APMM_stndin.log | while read LOGLINE; do [[ "${LOGLINE}" == *"process"* ]] && mail -r LOGMON -s "Process FOUND" username@ibm.com $$ tail; done
+
+#run sudo command remotely with standard user whom can sudo
+ssh -tt $sshopt huh12345@$machine 'echo PASSWORD | sudo -S mv /tmp/logged.py /root/logged.py && sudo -S /root/logged.py 200'
+
+#insert timestamp to standard error log
+myscript.sh 2>> "myscript's_ERROR.log" || sed "\$s/^/`date '+%m\/%d\/%Y %H:%M:%S'` --- /" myscript's_ERROR.log
+
+#gzip tar long argument list
+ for file in $(ls | grep csv$) ; do gzip -f $file; done
+or
+ tar -cvz -T file_list.txt -f targile.tar
+ 
+#remove whole bash history of the current shell: kill -9 $$
+
+#recursive full-path listing, one line per file:
+ ls -R /home/$USER | awk '
+ /:$/&&f{s=$0;f=0}
+ /:$/&&!f{sub(/:$/,"");s=$0;f=1;next}
+ NF&&f{ print s"/"$0 }' | wc -l
+
+#create exe from python script
+ pyinstaller pythonscript.py			#note that you probably end up with more files as this creates the required dll's as well for you
+	
+-[Automate settings] #replace <user> with a real username
+#Cronab:	
+@reboot nohup /bin/sleep 10;/home/<user>/.connect_to_hidden_SSID.sh & 2>/dev/null
+@reboot /bin/sleep 600;/home/<user>/.screenrezfix.sh 2>/dev/null
+*/2 * * * * /home/<user>/.screenrezfix.sh 2>/dev/null
+0 20 1 * * /home/<user>/.update.sh 2>&1 >> /home/<user>/update.log
+#################
+#script contents:
+	#1; connect_to_hidden_SSID.sh:
+
+#!/bin/sh
+#
+# Automatically try to connect to 'WiFiNAME' when WiFi is enabled
+#
+
+# the output of nmcli should be in English
+LC_ALL=C
+
+# loop for a while until NetworkManager is accepting commands
+while [ "$(nmcli -t -f WIFI,STATE nm)" = 'enabled:disconnected' ]
+do
+ nmcli con up id "mynetworknamegoeshere"
+ sleep 5
+done
+
+exit 0
+
+
+	#2; screenrezfix.sh - fixes res. & mirrors screens
+
+sleep 30
+cvt 1600 900 60
+xrandr --newmode "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync
+xrandr --addmode DP-2 1600x900_60.00
+xrandr --output DP-2 --same-as eDP-1 #to mirror screen to the other display; feel free to uncomment (put "#" in front of this line) to disable
+
+	#3; update.sh #this works on ubuntu; to make it run on CentOS or RHEL replace the "apt-get" with "yum"
+#!/bin/bash
+echo `date`
+echo
+apt-get update
+apt-get upgrade -y
+apt-get autoclean
+echo "##########"
+echo
+
+	
+[Q&A]
+1. In which directory would you expect a DVD drive to be mounted after it has been inserted into your system?
+	/run
+	
+2. Which statement about links is not true? Select all that apply. 
+	Symbolic links can point to files on other servers.
+Hard links to directories can be created. - THIS IS NOT TRUE
+	Hard links cannot be created to directories (and to other devices).
+	A hard link to a file will not disappear if the original file is removed.
+	Permissions cannot be managed on symbolic links.
+
+3. Which of the following is not a valid method of adding user lisa to the group sales? 
+	Use groupmod -aU lisa sales.
+	 The groupmod command has no options for modifying the membership of secondary groups of a user.
+Use vigr and add lisa to the fourth field of /etc/group.
+Use useradd -G sales lisa.
+Use usermod -aG sales lisa.
+
+4. You are working in a KVM virtual machine running RHEL 7.2. Which solution would bring you to the virtual terminal TTY2?
+Use chvt 2
+Within a KVM virtual machine, the key sequences would be captured by the host operating system and not by the virtual machine.
+
+5. Which of the following commands will write a backup of the /etc directory to the file /root/etc.tar? 
+Code example - tar czvf /root/etc.tar /etc
+This answer has the correct options, and correctly lists the target file after option f and before the directory to be backed up.
+
+6. Which command should you use to apply permanent network configuration? 
+The command nmcli
+The nmcli command writes directly to the configuration files and makes sure that the modified configuration is persistent.
+
+7. You want to copy over your SSH private key to a server to enable key-based SSH login. Which statement is true? 
+Never do it as stated; doing so is insecure.
+What you need to copy over is the public key, not the private key.
+
+8. What is the name of the Linux file in which passwords are stored? 
+The file /etc/shadow
+The files listed in the other answers do not exist.
+
+9. Which statement describes NetworkManager in the most accurate way? 
+NetworkManager is the primary service used to manage network configuration on RHEL 7.
+The NetworkManager service takes care of the network configuration in RHEL 7.
+
+10. In the home directory of user lisa, there is a file with the following permission settings, -r--r--r-- root root myfile. Which statements about this file are true? Select all that apply. 
+User lisa can move this file to /tmp.
+She can move the file to /tmp because everyone has write permissions to the /tmp directory.
+	User lisa cannot remove the file. - THIS IS NOT TRUE
+User lisa cannot write to this file.
+She cannot write to the file because no write permissions are granted.
+User lisa can read this file.
+Lisa gets permissions only through the others entity, which has read permissions to the file, so she can read the file.
+
+11. You want to provide a solution where members of the group account will always be able to read files in the directory /data/sales. The directory /data/sales is group-owned by the group sales and has permission mode 770. Which statement describes the best solution?
+Use setfacl -m d:g:account:rx /data/sales and setfacl -R -m g:account:rx /data/sales
+You need access to control lists. To take care of existing files, you must use the setfacl command with the -R and -m options. To take care of all files that will be created in the future, you'll need to use the default option.
+
+12. You type man -k user and get the message "Nothing Appropriate." Which of the following is the most likely explanation?
+The database that man -k searches hasn't been created or is corrupt. Run updatedb to update it.
+The updatedb command updates the man database.
+
+13. You want to make sure that a file is copied to the home directory of each new user you'll be creating. How would you do that? 
+Copy the file to the /etc/skel directory.
+The /etc/skel directory is used as a template when creating new user home directories. Any file in this directory will be copied to the home directory of newly created users.
+
+14. Which statement about automount is not true? 
+All configurations should be placed in the /etc/auto.master file. - NOT TRUE; others are TRUE
+The command automount works with indirect files that are referred to from the /etc/auto.master file. So this file plays a role, but other files are involved as well—they are referred to as indirect files.
+	The command automount makes NFS mounts from other servers easily accessible through the /net directory.
+	The command automount works with indirect files.
+	The command automount configuration can be managed by the autofs service, but also by systemd.
+
+15. Which of the following is not a valid way of saving and quitting vim? 
+Code example - :x
+Code example - ZZ
+Code example - wq!
+	Code example - wq! is missing the colon required at the beginning, and so is not a valid way of saving and quitting vim.
+Code example - :wq!
+
+16. Which regular expression would you use to look for lines that do not have a # in the beginning of the line? 
+Code example - !'^#'
+Code example - ^ is used to refer to the beginning of the line, and ! is used as a negation
+
+17. Which command would locate all files on your system that have the SUID permission set?
+The command find / -perm /4000
+The SUID permission is the permission that starts with 4. The / in front of the permissions will search for anything that has SUID set.
+
+18. You want to change all occurrences of the text 'root' in the file /root/myfile to uppercase and write the output to the current console. Which command would do that for you?
+Code example - cat /root/myfile | tr root ROOT
+This answer pipes /root/myfile to tr, which will replace 'root' with 'ROOT' and output to the current console.
+
+19. Which file contains the hostname on a RHEL 7 server? 
+The file /etc/hostname
+
+20. You want to create a shared group environment where permissions are set in the best possible way so that members of a group can work in the same file, the department chief is allowed to remove all files, but members of the team cannot remove files created by another team member. Which permission mode would best fit these needs, assuming that the department chief is the owner of the shared group directory? 
+The statement 3770
+You need a sticky bit as well as SGID.
