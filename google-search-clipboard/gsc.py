@@ -11,6 +11,7 @@ webbrowser.get(brave_path).open(url)
 #webbrowser.get(firefox_path).open(url)
 
 """Chrome & Brave-WebBrowser opens new private window even when there is already a normal chrome window opened; 
-firefox doesn't.
-If you want to use firefox then uncomment line 7 & 11; and put "#" in at the beginning of the 
-lines above (line 4 and line 8) """
+  firefox doesn't.
+
+If you want to use firefox then uncomment line 7 & 11; 
+  and put "#" in at the beginning of the brave-browser lines (line 5 & 9) """
