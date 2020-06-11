@@ -11,7 +11,7 @@
 		iop <image>  # note: that you have to paste the whole filename --including the extension (.jpg or .png or ...)
 	#it is assumed that the pictures are named properly so you know what you are looking for.
 		example.:	[bad]	Screenshot1234 is obviously better to be checked via GUI...
-					[good]	Homeostatsis.png
+				[good]	Homeostatsis.png
 
 
 [Prerequisites]
