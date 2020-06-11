@@ -7,4 +7,5 @@ epoch 1583762400 		#will convert your <xxxxxxxxxx> epoch value to human date
 
 [Installation]
 mkdir -p /home/$USER/scripts
+chmod 750 -R /home/$USER/scripts/
 echo 'export PATH=$PATH:/home/'"$USER/scripts" >> /home/$USER/.bashrc
