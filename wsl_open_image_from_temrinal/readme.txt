@@ -24,7 +24,7 @@
 	[WSL]
 	sudo apt install x11-apps
 		[optional]
-		sudo apt install x11-apps		# not needed for localhost
+		sudo apt install x11-apps	# not needed for localhost
 		touch /home/$USER/.Xauthority	# not needed for localhost
 
 	export DISPLAY=localhost:0.0
