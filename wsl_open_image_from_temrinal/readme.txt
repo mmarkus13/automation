@@ -19,6 +19,7 @@
 
 	[windows10]
 	install xming & start (with defailt 0 port)
+	install WSL via 'wsl_enable.ps1' and download Ubuntu from Microsoft Store or https://ubuntu.com/download/desktop
 
 	[WSL]
 	sudo apt install x11-apps
