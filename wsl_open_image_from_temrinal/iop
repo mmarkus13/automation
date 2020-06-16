@@ -1,1 +1,1 @@
-python /home/$USER/scripts/open_imgage.py --p `pwd` --i $1
+python /home/$USER/scripts/open_imgage.py --p `pwd` --i "$1"
