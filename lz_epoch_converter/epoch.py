@@ -2,22 +2,24 @@ import argparse
 import calendar
 import time
 
-time_now = calendar.timegm(time.gmtime())
+current_time = calendar.timegm(time.gmtime())
 
 parser = argparse.ArgumentParser(description='--t "<epoch time value>"')
-parser.add_argument("--t", default=time_now, help="'current epoch time is `date +%s`'")
+parser.add_argument("--t", default=current_time, help="'current epoch time is `date +%s`'")
 args = parser.parse_args()
+
 t = args.t
+t = str(t)[:10]  # 10 digit long epoch is valid till 'January 18, 2038'; then it will be 11 digits long
 
 
-def epoch():
+def convert_epoch():
     # print current epoch if no argument & exit
-    if t == time_now:
-        print("Current EPOCH time is: " + (str(t)))
+    if t == current_time:
+        print("Current EPOCH time is: "+(str(t)))
         exit()
 
-    human_time = time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(t)))
-    print("Human-readable date:\n" + human_time)
+    readable_date = time.strftime('%m/%d/%Y %H:%M:%S', time.localtime(int(t)))
+    print("Human-readable date:\n"+readable_date)
 
 
-epoch()
+convert_epoch()
