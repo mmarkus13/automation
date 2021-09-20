@@ -14,7 +14,7 @@ t = str(t)[:10]  # 10 digit long epoch is valid till 'January 18, 2038'; then it
 
 def convert_epoch():
     # print current epoch if no argument & exit
-    if t == current_time:
+    if t == str(current_time)[:10]:
         print("Current EPOCH time is: "+(str(t)))
         exit()
 
